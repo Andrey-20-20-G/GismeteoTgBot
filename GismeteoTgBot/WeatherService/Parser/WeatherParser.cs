@@ -7,45 +7,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using GismeteoTgBot.BotSettings.Interfaces;
+using GismeteoTgBot.WeatherService.Interfaces;
+using GismeteoTgBot.BotSettings.Models;
 
 namespace GismeteoTgBot.WeatherService.Parser
 {
-    public class WeatherParser : BackgroundService, IParserBase
+    public class WeatherParser : BackgroundService
     {
+        private readonly ITgSettingsBase _tgSettings;
+        private readonly IWeatherBase _info;
         public string Url { get; set; } = "https://www.gismeteo.ru/weather-omsk-4578/";
         public string City { get; set; }
-
-        public WeatherInfo _info = new WeatherInfo();
-
-        //public void SetUrl(string url, string city)
-        //{
-        //    if (City != null)
-        //    {
-        //        Url = url + "weather-" + city + "/";
-        //    }
-        //    else
-        //    {
-        //        Debug.WriteLine("City is empty");
-        //    }
-
-        //}
-
-        //public void SetCity(string city)
-        //{
-        //    if (city == null)
-        //    {
-        //        Debug.WriteLine("City is empty");
-        //    }
-        //    else
-        //    {
-        //        City = city;
-        //    }
-        //}
+        
+        public WeatherParser()
+        {
+            _info = new WeatherInfo();
+            _tgSettings = new TgSettingsModel();
+        }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             var web = new HtmlWeb();
-            var doc = web.Load(Url);
+            var doc = web.Load(_tgSettings.Url);
 
             var counter = 1;
             var checker = false;
