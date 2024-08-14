@@ -13,6 +13,6 @@ namespace GismeteoTgBot.BotSettings.Interfaces
         public string City { get; set; }
 
         public void SetUrl(string url, CityEnum city);
-        public void SetCity(CityEnum city);
+        //public void SetCity(CityEnum city);
     }
 }

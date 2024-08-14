@@ -9,9 +9,10 @@ namespace GismeteoTgBot.WeatherService.Models
 {
     public class WeatherInfo : IWeatherBase
     {
-        public List<WeatherModel> WeatherListForDay { get; set; } = [];
+        public string Weather = string.Empty;
+        public List<WeatherModel>? WeatherListForDay { get; set; } = [];
 
-        public async Task<List<WeatherModel>>? GetWeatherInfo(
+        public async Task<string> GetWeatherInfo(
             List<string> weatherConditions, List<string> time, List<int> temp)
         {
             for (int i = 0; i < 8; i++)
@@ -19,11 +20,11 @@ namespace GismeteoTgBot.WeatherService.Models
                 if (weatherConditions[i] == null || time[i] == null)
                 {
                     WeatherListForDay = null;
-                    return WeatherListForDay;
+                    await Task.FromResult(Weather);
                 }
                 else
                 {
-                    WeatherListForDay.Add(new WeatherModel
+                    WeatherListForDay?.Add(new WeatherModel
                     {
                         Temperature = temp[i],
                         WeatherConditions = weatherConditions[i],
@@ -33,10 +34,11 @@ namespace GismeteoTgBot.WeatherService.Models
             }
             foreach (var day in WeatherListForDay)
             {
+                Weather += $"{day.Time} | {day.WeatherConditions} | {day.Temperature} \n\n";
                 Console.WriteLine($"{day.Time} | {day.WeatherConditions} | {day.Temperature}");
                 Console.WriteLine($"__________________________________");
             }
-            return WeatherListForDay;
+            return await Task.FromResult(Weather);
         }
 
     }

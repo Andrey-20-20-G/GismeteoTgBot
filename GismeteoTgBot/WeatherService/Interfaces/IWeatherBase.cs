@@ -11,9 +11,7 @@ namespace GismeteoTgBot.WeatherService.Interfaces
     {
         public List<WeatherModel>? WeatherListForDay { get; set; }
 
-        public Task<List<WeatherModel>>? GetWeatherInfo(
+        public Task<string> GetWeatherInfo(
             List<string> weatherConditions, List<string> time, List<int> temp);
-
     }
-
 }

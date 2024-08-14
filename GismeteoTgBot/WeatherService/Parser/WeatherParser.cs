@@ -13,7 +13,7 @@ using GismeteoTgBot.BotSettings.Models;
 
 namespace GismeteoTgBot.WeatherService.Parser
 {
-    public class WeatherParser : BackgroundService
+    public class WeatherParser
     {
         private readonly ITgSettingsBase _tgSettings;
         private readonly IWeatherBase _info;
@@ -26,10 +26,10 @@ namespace GismeteoTgBot.WeatherService.Parser
             _tgSettings = new TgSettingsModel();
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        public async Task<string> GetWeatherListForDay()
         {
             var web = new HtmlWeb();
-            var doc = web.Load(_tgSettings.Url);
+            var doc = web.Load("https://www.gismeteo.ru/weather-omsk-4578/");  //_tgSettings.Url
 
             var counter = 1;
             var checker = false;
@@ -83,8 +83,7 @@ namespace GismeteoTgBot.WeatherService.Parser
                 }
             }
 
-            var list = await _info.GetWeatherInfo(listConditions, listTime, listTemperatures);
-            await Task.Delay(100000, stoppingToken);
+            return await _info.GetWeatherInfo(listConditions, listTime, listTemperatures);
         }
     }
 }

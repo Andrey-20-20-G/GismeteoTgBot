@@ -13,7 +13,7 @@ namespace GismeteoTgBot.BotSettings.Models
     {
         public string Url { get; set; } = string.Empty;
         public string City { get; set; } = string.Empty;
-        public void SetCity(CityEnum city)
+        /*public void SetCity(CityEnum city)
         {
             if (city == CityEnum.None)
             {
@@ -23,7 +23,7 @@ namespace GismeteoTgBot.BotSettings.Models
             {
                 City = city;
             }
-        }
+        }*/
 
         public void SetUrl(string url, CityEnum city)
         {
