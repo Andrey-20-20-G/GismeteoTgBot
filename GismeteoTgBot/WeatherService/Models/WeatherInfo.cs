@@ -13,11 +13,11 @@ namespace GismeteoTgBot.WeatherService.Models
         public List<WeatherModel>? WeatherListForDay { get; set; } = [];
 
         public async Task<string> GetWeatherInfo(
-            List<string> weatherConditions, List<string> time, List<int> temp)
+            List<string> weatherConditions, List<DateTime> time, List<int> temp)
         {
             for (int i = 0; i < 8; i++)
             {
-                if (weatherConditions[i] == null || time[i] == null)
+                if (weatherConditions[i] == null)
                 {
                     WeatherListForDay = null;
                     await Task.FromResult(Weather);
@@ -34,8 +34,8 @@ namespace GismeteoTgBot.WeatherService.Models
             }
             foreach (var day in WeatherListForDay)
             {
-                Weather += $"{day.Time} | {day.WeatherConditions} | {day.Temperature} \n\n";
-                Console.WriteLine($"{day.Time} | {day.WeatherConditions} | {day.Temperature}");
+                Weather += $"{day.Time.ToShortTimeString()} | {day.WeatherConditions} | {day.Temperature} \n\n";
+                Console.WriteLine($"{day.Time.ToShortTimeString()} | {day.WeatherConditions} | {day.Temperature}");
                 Console.WriteLine($"__________________________________");
             }
             return await Task.FromResult(Weather);
